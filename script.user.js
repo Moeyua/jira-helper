@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         Jira Helper
-// @namespace    http://tampermonkey.net/
-// @version      0.2
-// @description  try to take over the world!
-// @homepage     https://github.com/Moeyua/jira-helper
-// @author       Moeyua
-// @match        https://jira-yzwl.wisedu.com/**
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=jira.com
-// @grant        GM_addStyle
+// @version      0.1.2
+// @description  Enhance the functionality of the Jira issue tracking system.
+// @author       Moeyua (https://github.com/moeyua)
+// @license      MIT
 // @run-at       document-start
+// @homepageURL  https://github.com/Moeyua/jira-helper
+// @supportURL   https://github.com/Moeyua/jira-helper
+// @match        https://jira-yzwl.wisedu.com/**
+// @grant        GM_addStyle
 // ==/UserScript==
 
 document.addEventListener('DOMContentLoaded', () => {
