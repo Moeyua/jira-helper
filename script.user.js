@@ -12,19 +12,19 @@
 // @run-at       document-start
 // ==/UserScript==
 
-document.addEventListener("DOMContentLoaded", () => {
-  ("use strict");
+document.addEventListener('DOMContentLoaded', () => {
+  ('use strict');
 
   const CSS_RULES = `.marked { background-color: rgb(173, 217, 188)}`;
   GM_addStyle(CSS_RULES);
 
   const TOOLBAR =
-    "#stalker > div > div.command-bar > div > div > div > div > div.aui-toolbar2-primary";
-  const ISSUE_LINK = "#key-val";
+    '#stalker > div > div.command-bar > div > div > div > div > div.aui-toolbar2-primary';
+  const ISSUE_LINK = '#key-val';
   const ISSUE_LIST =
-    "#main > div > div.navigator-group > div > div > div > div > div > div.aui-item.list-results-panel > div:nth-child(1) > div > div.list-panel > div.search-results > div > ol";
+    '#main > div > div.navigator-group > div > div > div > div > div > div.aui-item.list-results-panel > div:nth-child(1) > div > div.list-panel > div.search-results > div > ol';
   const FOCUSED_ISSUE = `${ISSUE_LIST} > li.focused`;
-  const storage = new Storage("jira-helper");
+  const storage = new Storage('jira-helper');
 
   // 观察 issue 变动，并执行 initChangers
   const observeIssueChange = createObserver(() =>
@@ -46,23 +46,23 @@ document.addEventListener("DOMContentLoaded", () => {
     ]).then(([issueLink, issueList, toolbar]) => {
       debug(toolbar, issueLink, issueList);
 
-      const number = issueLink.getAttribute("data-issue-key");
-      const href = issueLink.getAttribute("href");
+      const number = issueLink.getAttribute('data-issue-key');
+      const href = issueLink.getAttribute('href');
 
       issueList.childNodes.forEach((issue) => {
-        const issueNumber = issue.getAttribute("data-key");
+        const issueNumber = issue.getAttribute('data-key');
         if (storage.has(issueNumber)) {
-          issue.classList.add("marked");
+          issue.classList.add('marked');
         }
       });
 
-      const button_wapper = document.createElement("div");
-      button_wapper.className = "aui-buttons pluggable-ops";
-      const button_copy = createToolButton("复制", onCopy, number);
-      const button_share = createToolButton("分享", onShare, href);
-      const markText = storage.has(number) ? "取消标记" : "标记";
+      const button_wapper = document.createElement('div');
+      button_wapper.className = 'aui-buttons pluggable-ops';
+      const button_copy = createToolButton('复制', onCopy, number);
+      const button_share = createToolButton('分享', onShare, href);
+      const markText = storage.has(number) ? '取消标记' : '标记';
       const button_mark = createToolButton(markText);
-      button_mark.addEventListener("click", () => {
+      button_mark.addEventListener('click', () => {
         onMark(number, button_mark);
       });
       button_wapper.appendChild(button_copy);
@@ -74,34 +74,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function onCopy(number) {
     await navigator.clipboard.writeText(number);
-    debug("onCopy", number);
+    debug('onCopy', number);
   }
   async function onShare(href) {
     const issueLink = window.location.origin + href;
     await navigator.clipboard.writeText(issueLink);
-    debug("onShare", issueLink);
+    debug('onShare', issueLink);
   }
   function onMark(number, button) {
     const issue_focused = document.querySelector(FOCUSED_ISSUE);
     if (storage.has(number)) {
       storage.remove(number);
-      issue_focused.classList.remove("marked");
-      button.innerText = "标记";
+      issue_focused.classList.remove('marked');
+      button.innerText = '标记';
       return;
     }
     storage.add(number);
-    issue_focused.classList.add("marked");
-    button.innerText = "取消标记";
+    issue_focused.classList.add('marked');
+    button.innerText = '取消标记';
   }
   function createToolButton(text, event, ...params) {
-    const button = document.createElement("a");
-    button.className = "aui-button toolbar-trigger";
-    const span = document.createElement("span");
+    const button = document.createElement('a');
+    button.className = 'aui-button toolbar-trigger';
+    const span = document.createElement('span');
     span.innerText = text;
-    span.className = "trigger-label";
+    span.className = 'trigger-label';
     button.appendChild(span);
     if (!event) return button;
-    button.addEventListener("click", () => {
+    button.addEventListener('click', () => {
       event(...params);
     });
     return button;
@@ -151,12 +151,12 @@ function createObserver(valueToWatch) {
 }
 
 function debug(...messages) {
-  console.debug("jira-helper", ...messages);
+  console.debug('jira-helper', ...messages);
 }
 
 class Storage {
   value = [];
-  key = "";
+  key = '';
   constructor(key) {
     this.key = key;
     this.value = JSON.parse(localStorage.getItem(key)) || [];
