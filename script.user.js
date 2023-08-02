@@ -8,7 +8,6 @@
 // @match        https://jira-yzwl.wisedu.com/**
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=jira.com
 // @grant        GM_addStyle
-// @require      file:///Users/moeyua/Devlopment/projects/jira-helper/script.user.js
 // @run-at       document-start
 // ==/UserScript==
 
